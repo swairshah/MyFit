@@ -1,0 +1,10 @@
+{
+  "name": "MyFit (Dev)",
+  "permissions": ["storage", "userScripts", "scripting", "tabs"],
+  "host_permissions": [
+    "https://api.anthropic.com/*",
+    "https://api.openai.com/*",
+    "http://*/*",
+    "https://*/*"
+  ]
+}

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-5 0-8.5-3.2-8.5-7.6 0-5 4.6-9.4 9.3-9.4 4.2 0 7.7 2.9 7.7 6.9 0 4.6-4 7.4-7.6 7.4-2.9 0-5.2-1.8-5.2-4.4 0-2.9 2.5-5.1 5.3-5.1"/></svg>
+      <span>MyFit</span>
+    </div>
+    <button class="icon-btn" id="themeToggle" title="Toggle theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M21.5 12h-2M4.5 12h-2M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4M18.7 18.7l-1.4-1.4M6.7 6.7L5.3 5.3"/></svg>
+    </button>
+  </header>
+
+  <nav class="seg" id="tabs" role="tablist">
+    <span class="seg-indicator" id="segIndicator"></span>
+    <button class="seg-item active" role="tab" data-view="profile">Profile</button>
+    <button class="seg-item" role="tab" data-view="purchases">Purchases</button>
+    <button class="seg-item" role="tab" data-view="settings">Settings</button>
+  </nav>
+
+  <main>
+    <section class="view active" id="view-profile">
+      <p class="lede">Your sizes and preferences ground every nudge. The more here, the smarter the crayon.</p>
+      <div class="grid-2">
+        <label class="field"><span class="label">Tops</span><input class="input" data-size="tops" placeholder="M" /></label>
+        <label class="field"><span class="label">Bottoms</span><input class="input" data-size="bottoms" placeholder="32" /></label>
+        <label class="field"><span class="label">Shoes</span><input class="input" data-size="shoes" placeholder="10" /></label>
+        <label class="field"><span class="label">Outerwear</span><input class="input" data-size="outerwear" placeholder="L" /></label>
+        <label class="field"><span class="label">Dress</span><input class="input" data-size="dress" placeholder="" /></label>
+        <label class="field"><span class="label">Height (cm)</span><input class="input num" id="heightCm" placeholder="175" inputmode="numeric" /></label>
+      </div>
+      <div class="field">
+        <span class="label">Fit preference</span>
+        <div class="seg seg-sm" id="fitSeg">
+          <span class="seg-indicator"></span>
+          <button class="seg-item" data-fit="snug">Snug</button>
+          <button class="seg-item" data-fit="regular">Regular</button>
+          <button class="seg-item" data-fit="relaxed">Relaxed</button>
+        </div>
+      </div>
+      <label class="field">
+        <span class="label">Style notes</span>
+        <textarea class="textarea" id="styleNotes" rows="3" placeholder="Prefer muted colors, no logos, slim but not skinny..."></textarea>
+      </label>
+      <div class="field">
+        <span class="label">Brand notes</span>
+        <div id="brandNotes" class="stack"></div>
+        <button class="btn btn-secondary btn-sm" id="addBrandNote">Add brand note</button>
+      </div>
+    </section>
+
+    <section class="view" id="view-purchases">
+      <p class="lede">Everything you log here feeds the sizing advice. Rate the fit once you have worn it.</p>
+      <button class="btn btn-secondary btn-sm" id="addPurchase">Add purchase manually</button>
+      <div id="purchaseForm" class="card-soft stack" hidden>
+        <div class="grid-2">
+          <label class="field"><span class="label">Brand</span><input class="input" id="pBrand" placeholder="Uniqlo" /></label>
+          <label class="field"><span class="label">Item</span><input class="input" id="pItem" placeholder="Oxford shirt" /></label>
+          <label class="field"><span class="label">Category</span>
+            <select class="input" id="pCategory">
+              <option value="tops">Tops</option><option value="bottoms">Bottoms</option>
+              <option value="shoes">Shoes</option><option value="outerwear">Outerwear</option>
+              <option value="dress">Dress</option><option value="accessory">Accessory</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="field"><span class="label">Size</span><input class="input" id="pSize" placeholder="M" /></label>
+        </div>
+        <div class="row-end">
+          <button class="btn btn-ghost btn-sm" id="pCancel">Cancel</button>
+          <button class="btn btn-primary btn-sm" id="pSave">Save</button>
+        </div>
+      </div>
+      <div id="purchaseList" class="stack"></div>
+      <div id="purchaseEmpty" class="empty" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1.2 13H4.8L6 7Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+        <p>No purchases yet. Buy something with MyFit on, or add one manually.</p>
+      </div>
+    </section>
+
+    <section class="view" id="view-settings">
+      <div class="field">
+        <span class="label">Model provider</span>
+        <div class="seg seg-sm" id="providerSeg">
+          <span class="seg-indicator"></span>
+          <button class="seg-item" data-provider="anthropic">Claude</button>
+          <button class="seg-item" data-provider="openai">OpenAI</button>
+        </div>
+      </div>
+      <label class="field"><span class="label">Anthropic API key</span><input class="input mono" type="password" id="anthropicKey" placeholder="sk-ant-..." autocomplete="off" /></label>
+      <label class="field"><span class="label">OpenAI API key</span><input class="input mono" type="password" id="openaiKey" placeholder="sk-..." autocomplete="off" /></label>
+      <div class="grid-2">
+        <label class="field"><span class="label">Claude model</span><input class="input mono" id="anthropicModel" /></label>
+        <label class="field"><span class="label">OpenAI model</span><input class="input mono" id="openaiModel" /></label>
+      </div>
+      <div class="switch-row">
+        <div>
+          <div class="switch-title">Analyze pages automatically</div>
+          <div class="switch-sub">Quietly checks product pages and draws when it has something useful</div>
+        </div>
+        <button class="switch" id="autoAnalyze" role="switch" aria-checked="true"></button>
+      </div>
+      <label class="field">
+        <span class="label">Highlight lifespan (seconds)</span>
+        <input class="input num" id="highlightSeconds" inputmode="numeric" />
+      </label>
+      <div class="field">
+        <span class="label">Disabled sites</span>
+        <div id="disabledSites" class="stack"></div>
+        <p class="hint" id="disabledEmpty">None. Disable a site from its panel, or it stays on everywhere.</p>
+      </div>
+      <p class="hint">Keys live only in your browser's extension storage. Page extracts are sent to the provider you choose, nowhere else.</p>
+    </section>
+  </main>
+
+  <footer class="foot" id="devFoot" hidden>
+    <button class="dev-link" id="openConsole">Dev console</button>
+  </footer>
+
+  <div class="savebar" id="savebar">Saved</div>
+  <script src="popup.js"></script>
+</body>
+</html>

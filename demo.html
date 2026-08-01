@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>MyFit crayon demo</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, sans-serif; max-width: 640px; margin: 60px auto; padding: 0 24px; color: #1a1a18; -webkit-font-smoothing: antialiased; }
+    h1 { font-size: 22px; letter-spacing: -0.012em; text-wrap: balance; }
+    p { color: #555; line-height: 1.6; text-wrap: pretty; }
+    .sizes { display: flex; gap: 10px; margin: 32px 0; }
+    .sizes button { width: 48px; height: 40px; border: 1px solid #ddd; border-radius: 8px; background: #fff; font-size: 14px; cursor: pointer; }
+    .review { margin: 28px 0; padding: 14px 16px; background: #f6f6f4; border-radius: 10px; font-size: 14px; line-height: 1.55; }
+    .actions { display: flex; gap: 10px; margin-top: 36px; }
+    .actions button { height: 36px; padding: 0 16px; border: none; border-radius: 8px; background: #1a1a18; color: #fff; font-size: 14px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Classic Oxford Shirt</h1>
+  <p>$49.90 — A demo product page. Open this file in a browser to see the crayon engine without installing anything.</p>
+  <div class="sizes">
+    <button>XS</button><button>S</button><button>M</button><button id="rec">L</button><button>XL</button>
+  </div>
+  <div class="review" id="review">Heads up — I usually wear a medium in everything but this brand runs small, the M fit like an S. Sized up to L and it's perfect.</div>
+  <div class="actions">
+    <button id="circle">Draw circle</button>
+    <button id="underline">Draw underline</button>
+    <button id="verdict">Draw verdict note</button>
+  </div>
+  <script src="src/shared/content/crayon.js"></script>
+  <script>
+    document.getElementById('circle').addEventListener('click', () => {
+      window.__myfit.crayon.circle(document.getElementById('rec'), {
+        label: 'Reviews: runs ~1 size small vs your usual M — try L',
+        tone: 'good',
+        lifespan: 10
+      });
+    });
+    document.getElementById('verdict').addEventListener('click', () => {
+      window.__myfit.crayon.note(document.querySelector('h1'), {
+        headline: 'L',
+        label: 'No size picker here, but reviewers say it runs a size small — with your usual M, go L.',
+        tone: 'info',
+        lifespan: 12
+      });
+    });
+    document.getElementById('underline').addEventListener('click', () => {
+      window.__myfit.crayon.underline(document.getElementById('review'), {
+        label: 'The telling review',
+        tone: 'warn',
+        lifespan: 10
+      });
+    });
+  </script>
+</body>
+</html>

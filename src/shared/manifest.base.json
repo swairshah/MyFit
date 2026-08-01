@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "MyFit",
+  "version": "0.2.0",
+  "description": "Gentle crayon nudges toward your right fit and style, grounded in your purchase history and what reviewers actually say.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://api.anthropic.com/*",
+    "https://api.openai.com/*"
+  ],
+  "background": { "service_worker": "background.js" },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": [
+        "parsers/dsl.js",
+        "parsers/validate.js",
+        "parsers/bundled.js",
+        "content/crayon.js",
+        "content/extract.js",
+        "content/panel.js",
+        "content/analyzer.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["parsers/registry.json"],
+      "matches": ["http://*/*", "https://*/*"]
+    }
+  ],
+  "commands": {
+    "toggle-panel": {
+      "suggested_key": { "default": "Alt+M" },
+      "description": "Toggle the MyFit panel"
+    }
+  }
+}

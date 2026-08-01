@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>MyFit Dev Console</title>
+  <link rel="stylesheet" href="../popup/tokens.css" />
+  <link rel="stylesheet" href="console.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-5 0-8.5-3.2-8.5-7.6 0-5 4.6-9.4 9.3-9.4 4.2 0 7.7 2.9 7.7 6.9 0 4.6-4 7.4-7.6 7.4-2.9 0-5.2-1.8-5.2-4.4 0-2.9 2.5-5.1 5.3-5.1"/></svg>
+      <span>MyFit Dev Console</span>
+      <span class="badge">parser factory</span>
+    </div>
+    <button class="icon-btn" id="themeToggle" title="Toggle theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M21.5 12h-2M4.5 12h-2M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4M18.7 18.7l-1.4-1.4M6.7 6.7L5.3 5.3"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <section class="col run-col">
+      <div class="card">
+        <div class="card-title">Run the agent</div>
+        <div class="tab-line">
+          <span class="status-dot" id="tabDot"></span>
+          <span class="tab-url" id="tabUrl">No tab selected</span>
+          <button class="btn btn-ghost btn-sm" id="refreshTab">Use active tab</button>
+        </div>
+        <div class="field">
+          <span class="label">Parser kinds</span>
+          <div class="kinds" id="kinds">
+            <label class="kind"><input type="checkbox" class="checkbox" value="sizes" checked /><span>sizes</span></label>
+            <label class="kind"><input type="checkbox" class="checkbox" value="reviews" checked /><span>reviews</span></label>
+            <label class="kind"><input type="checkbox" class="checkbox" value="item" /><span>item</span></label>
+            <label class="kind"><input type="checkbox" class="checkbox" value="purchases" /><span>purchases</span></label>
+          </div>
+        </div>
+        <label class="field">
+          <span class="label">Extra instructions (optional)</span>
+          <textarea class="textarea" id="instructions" rows="2" placeholder="e.g. the size picker only appears after choosing a color"></textarea>
+        </label>
+        <div class="row">
+          <button class="btn btn-primary" id="run">Run agent on this tab</button>
+          <button class="btn btn-secondary" id="stop" hidden>Stop</button>
+        </div>
+        <label class="kind"><input type="checkbox" class="checkbox" id="autoRun" checked /><span>Auto-run when a product page has no parser (24h per-domain cooldown)</span></label>
+        <p class="hint" id="permHint" hidden>Enable "Allow user scripts" in chrome://extensions → MyFit (Dev) → Details. The toggle resets every time the unpacked extension reloads.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title-row">
+          <div class="card-title">Registered parsers</div>
+          <button class="btn btn-secondary btn-sm" id="export">Export registry + bundled.js</button>
+        </div>
+        <div id="parserList" class="stack"></div>
+        <p class="hint" id="parserEmpty">None yet. Run the agent on a product page.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Recent runs</div>
+        <div id="runList" class="stack"></div>
+        <p class="hint" id="runEmpty">No runs yet. Runs fire automatically on unparsed product pages, or manually above.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Recent parser failures (prod-loop feedback)</div>
+        <div id="failureList" class="stack"></div>
+        <p class="hint" id="failureEmpty">No failures logged.</p>
+      </div>
+    </section>
+
+    <section class="col trace-col">
+      <div class="card trace-card">
+        <div class="card-title-row">
+          <div class="card-title">Trace</div>
+          <button class="btn btn-ghost btn-sm" id="clearTrace">Clear</button>
+        </div>
+        <div id="trace" class="trace"></div>
+        <div id="traceEmpty" class="trace-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6M12 19h8"/></svg>
+          <p>Tool calls stream here while the agent works.<br/>Open a product page in another tab, then run.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="console.js"></script>
+</body>
+</html>

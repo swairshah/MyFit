@@ -1,0 +1,267 @@
+/* ============================================================
+   interfaces-vanilla — design tokens
+   A craft-first system distilled from interfaces.dev.
+   OKLCH-first color, 12-step neutral ladder, layered shadows,
+   spring-flavored motion. Light is default; dark via
+   [data-theme="dark"] (theme.js handles persistence + system).
+   ============================================================ */
+
+:root {
+  /* ----------------------------------------------------------
+     Color: neutral ladder (Radix-style 12 steps)
+     1-2 app/subtle backgrounds · 3-5 component backgrounds
+     6-8 borders · 9-10 solid surfaces · 11-12 text
+     OKLCH keeps perceived lightness consistent across steps.
+     ---------------------------------------------------------- */
+  --gray-1:  oklch(0.993 0.0008 106);  /* app background */
+  --gray-2:  oklch(0.981 0.0012 106);  /* subtle background, hovered rows */
+  --gray-3:  oklch(0.955 0.0016 106);  /* component bg (inputs, segmented) */
+  --gray-4:  oklch(0.931 0.0020 106);  /* hovered component bg */
+  --gray-5:  oklch(0.910 0.0024 106);  /* active component bg */
+  --gray-6:  oklch(0.885 0.0028 106);  /* subtle borders */
+  --gray-7:  oklch(0.850 0.0032 106);  /* UI borders, separators */
+  --gray-8:  oklch(0.792 0.0036 106);  /* hovered borders, disabled text bg */
+  --gray-9:  oklch(0.640 0.0040 106);  /* solid bg, placeholder text */
+  --gray-10: oklch(0.590 0.0040 106);  /* hovered solid bg */
+  --gray-11: oklch(0.450 0.0040 106);  /* secondary text */
+  --gray-12: oklch(0.210 0.0048 106);  /* primary text */
+
+  /* ----------------------------------------------------------
+     Color: accent (sky — the interfaces.dev passkey blue)
+     Same lightness/chroma discipline: change only hue to rebrand.
+     ---------------------------------------------------------- */
+  --accent-3:  oklch(0.951 0.024 237);  /* tinted bg */
+  --accent-5:  oklch(0.882 0.058 237);  /* active tinted bg */
+  --accent-7:  oklch(0.780 0.105 237);  /* border */
+  --accent-9:  oklch(0.715 0.143 237);  /* solid (≈ #00BCFF) */
+  --accent-10: oklch(0.660 0.140 237);  /* hovered solid */
+  --accent-11: oklch(0.520 0.115 237);  /* accent text on light */
+  --accent-12: oklch(0.330 0.080 237);  /* high-contrast accent text */
+  --accent-contrast: #ffffff;           /* text on solid accent */
+
+  /* ----------------------------------------------------------
+     Color: semantic (bg / border / solid / text per role)
+     ---------------------------------------------------------- */
+  --success-3:  oklch(0.962 0.040 156);
+  --success-9:  oklch(0.640 0.150 156);
+  --success-11: oklch(0.480 0.120 156);
+  --warning-3:  oklch(0.970 0.045 90);
+  --warning-9:  oklch(0.760 0.150 80);
+  --warning-11: oklch(0.520 0.120 70);
+  --danger-3:   oklch(0.960 0.022 22);
+  --danger-9:   oklch(0.620 0.200 26);
+  --danger-11:  oklch(0.500 0.180 26);
+
+  /* Translucent overlays — work on any background */
+  --overlay-hover:  oklch(0.210 0.005 106 / 0.05);
+  --overlay-active: oklch(0.210 0.005 106 / 0.08);
+  --backdrop:       oklch(0.150 0.005 106 / 0.40);
+
+  /* ----------------------------------------------------------
+     Surfaces & aliases (what components actually read)
+     ---------------------------------------------------------- */
+  --bg:            var(--gray-1);
+  --bg-subtle:     var(--gray-2);
+  --bg-component:  var(--gray-3);
+  --bg-raised:     #ffffff;          /* cards, dialogs, popovers */
+  --border-subtle: var(--gray-6);
+  --border:        var(--gray-7);
+  --border-strong: var(--gray-8);
+  --text:          var(--gray-12);
+  --text-secondary:var(--gray-11);
+  --text-tertiary: var(--gray-9);
+
+  /* 1px image/raised-surface outline — depth without a border */
+  --edge: oklch(0 0 0 / 0.10);
+
+  /* ----------------------------------------------------------
+     Shadows — layered, never a single blob.
+     shadow-border replaces borders on raised surfaces:
+     a 1px spread ring + two soft layers (from interfaces.dev).
+     ---------------------------------------------------------- */
+  --shadow-border:
+    0 0 0 1px oklch(0 0 0 / 0.06),
+    0 1px 2px -1px oklch(0 0 0 / 0.06),
+    0 2px 4px 0 oklch(0 0 0 / 0.04);
+  --shadow-border-hover:
+    0 0 0 1px oklch(0 0 0 / 0.08),
+    0 1px 2px -1px oklch(0 0 0 / 0.08),
+    0 2px 4px 0 oklch(0 0 0 / 0.06);
+  --shadow-md:
+    0 0 0 1px oklch(0 0 0 / 0.05),
+    0 2px 4px -1px oklch(0 0 0 / 0.05),
+    0 6px 16px -2px oklch(0 0 0 / 0.08);
+  --shadow-lg:
+    0 0 0 1px oklch(0 0 0 / 0.05),
+    0 4px 8px -2px oklch(0 0 0 / 0.06),
+    0 16px 40px -8px oklch(0 0 0 / 0.16);
+
+  /* ----------------------------------------------------------
+     Typography
+     ---------------------------------------------------------- */
+  --font-sans: 'Inter', 'OpenRunde', ui-sans-serif, system-ui,
+               -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular,
+               Menlo, monospace;
+
+  --fs-xs:   0.75rem;   /* 12 — overlines, kbd */
+  --fs-sm:   0.8125rem; /* 13 — meta, captions, badges */
+  --fs-base: 0.9375rem; /* 15 — UI default */
+  --fs-md:   1rem;      /* 16 — prose body */
+  --fs-lg:   1.125rem;  /* 18 — h3 / large UI */
+  --fs-xl:   1.375rem;  /* 22 — h2 */
+  --fs-2xl:  1.75rem;   /* 28 — h1 */
+  --fs-3xl:  2.375rem;  /* 38 — display */
+
+  --fw-regular: 400;
+  --fw-medium:  500;
+  --fw-semibold: 600;
+
+  --lh-tight: 1.2;   /* display, headings */
+  --lh-snug:  1.45;  /* UI copy */
+  --lh-base:  1.6;   /* prose */
+
+  --tracking-tight: -0.012em; /* headings ≥ 22px */
+  --tracking-wide:  0.06em;   /* uppercase overlines */
+
+  /* ----------------------------------------------------------
+     Spacing — 4px grid
+     ---------------------------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 56px;
+  --space-10: 80px;
+
+  /* ----------------------------------------------------------
+     Radii — concentric rule: outer = inner + padding.
+     Use radius-nest() pattern: parent { --pad: …; --child-r: …;
+     border-radius: calc(var(--child-r) + var(--pad)); }
+     ---------------------------------------------------------- */
+  --radius-xs:  4px;   /* kbd, checkbox, small chips */
+  --radius-sm:  6px;   /* inline code, small buttons */
+  --radius-md:  8px;   /* buttons, inputs */
+  --radius-lg:  12px;  /* cards, menus */
+  --radius-xl:  16px;  /* dialogs, large cards */
+  --radius-2xl: 20px;  /* outer shells wrapping lg children */
+  --radius-pill: 999px;
+
+  /* ----------------------------------------------------------
+     Motion
+     Durations: interactions stay ≤ 300ms; staged entrances may
+     run longer. Exits subtler + ~25% shorter than entrances.
+     ---------------------------------------------------------- */
+  --dur-fast:   120ms;  /* hovers, color/opacity flips */
+  --dur-base:   200ms;  /* press scale, icon swaps */
+  --dur-slow:   300ms;  /* dialog/menu enter, height changes */
+  --dur-slower: 450ms;  /* larger panels, exits from offscreen */
+  --dur-enter:  500ms;  /* page-level staggered entrances (hero only) */
+
+  --ease-out:     cubic-bezier(0.25, 0.46, 0.45, 0.94); /* entrances */
+  --ease-in-out:  cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  /* Spring, bounce 0 (≈ Motion spring duration .3 bounce 0) */
+  --ease-spring: linear(
+    0, 0.0036 1.1%, 0.0185 2.4%, 0.0577 4.3%, 0.1336 6.8%,
+    0.2521 9.9%, 0.5095 15.5%, 0.6671 19%, 0.8019 22.5%,
+    0.8834 25.2%, 0.9426 28%, 0.9817 31.1%, 1.0033 34.7%,
+    1.0125 39%, 1.0128 44.5%, 1.0034 56.4%, 0.9999 76.5%, 1
+  );
+  /* Spring with a touch of bounce — playful affordances only */
+  --ease-spring-soft: linear(
+    0, 0.0067 1.3%, 0.0277 2.7%, 0.0817 4.9%, 0.1968 8.1%,
+    0.4214 12.9%, 0.6797 17.6%, 0.8718 21.5%, 1.0033 25.1%,
+    1.0905 28.9%, 1.1296 32.6%, 1.1311 36.5%, 1.1024 41.3%,
+    1.0394 49.6%, 0.9986 59.2%, 0.9926 68.2%, 1.0001 87%, 1
+  );
+
+  --stagger: 80ms;   /* delay step between staggered siblings */
+
+  /* ----------------------------------------------------------
+     Layout & z
+     ---------------------------------------------------------- */
+  --measure: 680px;        /* prose width */
+  --container: 1080px;     /* app/marketing width */
+  --z-nav: 100;
+  --z-dropdown: 600;
+  --z-dialog: 800;
+  --z-toast: 900;
+
+  color-scheme: light;
+}
+
+/* ============================================================
+   Dark theme — same roles, re-tuned. Raised surfaces get
+   lighter (closer to viewer); shadows ring with white edges.
+   ============================================================ */
+[data-theme="dark"] {
+  --gray-1:  oklch(0.185 0.0040 256);
+  --gray-2:  oklch(0.210 0.0044 256);
+  --gray-3:  oklch(0.252 0.0048 256);
+  --gray-4:  oklch(0.282 0.0052 256);
+  --gray-5:  oklch(0.310 0.0056 256);
+  --gray-6:  oklch(0.342 0.0060 256);
+  --gray-7:  oklch(0.392 0.0064 256);
+  --gray-8:  oklch(0.474 0.0068 256);
+  --gray-9:  oklch(0.582 0.0064 256);
+  --gray-10: oklch(0.640 0.0060 256);
+  --gray-11: oklch(0.760 0.0050 256);
+  --gray-12: oklch(0.940 0.0040 256);
+
+  --accent-3:  oklch(0.272 0.045 237);
+  --accent-5:  oklch(0.350 0.075 237);
+  --accent-7:  oklch(0.480 0.105 237);
+  --accent-9:  oklch(0.715 0.143 237);
+  --accent-10: oklch(0.770 0.135 237);
+  --accent-11: oklch(0.800 0.115 237);
+  --accent-12: oklch(0.920 0.050 237);
+  --accent-contrast: oklch(0.180 0.030 237);
+
+  --success-3:  oklch(0.260 0.045 156);
+  --success-9:  oklch(0.700 0.145 156);
+  --success-11: oklch(0.800 0.120 156);
+  --warning-3:  oklch(0.270 0.045 85);
+  --warning-9:  oklch(0.800 0.140 85);
+  --warning-11: oklch(0.860 0.110 85);
+  --danger-3:   oklch(0.255 0.050 26);
+  --danger-9:   oklch(0.660 0.185 26);
+  --danger-11:  oklch(0.780 0.140 26);
+
+  --overlay-hover:  oklch(0.95 0.005 256 / 0.06);
+  --overlay-active: oklch(0.95 0.005 256 / 0.10);
+  --backdrop:       oklch(0.05 0.005 256 / 0.55);
+
+  /* Raised surfaces must step UP in lightness (Radix dark model:
+     gray1 page → gray3 card) — shadows alone can't separate
+     surfaces on dark, so the lift + a clear white ring do it. */
+  --bg-raised: var(--gray-3);
+  /* Inset wells (inputs, segmented tracks, code chips) sit on those
+     gray-3 cards too, where a solid gray-3 well would vanish.
+     Translucent black reads one step below whatever surface
+     it sits on — card or page. */
+  --bg-component: oklch(0 0 0 / 0.30);
+  --edge: oklch(1 0 0 / 0.14);
+
+  --shadow-border:
+    0 0 0 1px oklch(1 0 0 / 0.11),
+    0 1px 2px -1px oklch(0 0 0 / 0.40),
+    0 2px 4px 0 oklch(0 0 0 / 0.30);
+  --shadow-border-hover:
+    0 0 0 1px oklch(1 0 0 / 0.15),
+    0 1px 2px -1px oklch(0 0 0 / 0.45),
+    0 2px 4px 0 oklch(0 0 0 / 0.35);
+  --shadow-md:
+    0 0 0 1px oklch(1 0 0 / 0.11),
+    0 2px 4px -1px oklch(0 0 0 / 0.40),
+    0 6px 16px -2px oklch(0 0 0 / 0.45);
+  --shadow-lg:
+    0 0 0 1px oklch(1 0 0 / 0.13),
+    0 4px 8px -2px oklch(0 0 0 / 0.45),
+    0 16px 40px -8px oklch(0 0 0 / 0.60);
+
+  color-scheme: dark;
+}
